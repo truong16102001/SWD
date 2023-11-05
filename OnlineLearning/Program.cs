@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using OnlineLearning.AutoMapper;
 using OnlineLearning.Entities;
+using OnlineLearning.Repositories;
 using OnlineLearning.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OnlineLearningDbContext>(option => option.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
+builder.Services.AddTransient<IQuizRepository, QuizRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
